@@ -121,6 +121,32 @@ end)
 -- Enable break indent
 vim.o.breakindent = true
 
+-- Set tab to 4 spaces
+vim.opt.expandtab = true
+vim.opt.shiftwidth = 4
+vim.opt.tabstop = 4
+vim.opt.softtabstop = 4
+
+vim.api.nvim_create_autocmd('Filetype', {
+  pattern = { 'lua' },
+  callback = function()
+    vim.opt.expandtab = true
+    vim.opt.shiftwidth = 2
+    vim.opt.tabstop = 2
+    vim.opt.softtabstop = 2
+  end,
+})
+
+vim.api.nvim_create_autocmd('Filetype', {
+  pattern = { 'c', 'cpp' },
+  callback = function()
+    vim.opt.expandtab = true
+    vim.opt.shiftwidth = 4
+    vim.opt.tabstop = 4
+    vim.opt.softtabstop = 4
+  end,
+})
+
 -- Save undo history
 vim.o.undofile = true
 
@@ -807,7 +833,10 @@ require('lazy').setup({
           --   end,
           -- },
         },
-        opts = {},
+        opts = {
+          history = true,
+          updateevents = 'TextChanged,TextChangedI',
+        },
       },
       'folke/lazydev.nvim',
     },
