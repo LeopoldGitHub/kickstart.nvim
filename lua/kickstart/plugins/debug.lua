@@ -80,7 +80,46 @@ return {
   config = function()
     local dap = require 'dap'
     local dapui = require 'dapui'
+    dap.configurations.c = {
+      {
+        name = 'Compile & Launch (Debug)', -- Name for the debug session
+        type = 'codelldb', -- The adapter we just installed
+        request = 'launch',
+        program = function()
+          -- This function runs just before debugging starts
+          local current_file = vim.fn.expand '%'
+          if current_file == '' then
+            vim.notify('No file to debug', vim.log.levels.ERROR)
+            return nil
+          end
 
+          -- 1. Create the output file name
+          local output_exe = vim.fn.expand '%:r' .. '_debug.exe'
+
+          -- 2. Build the compile command
+          local compile_cmd = string.format('gcc -g %s -o %s', vim.fn.shellescape(current_file), vim.fn.shellescape(output_exe))
+
+          -- 3. Run the compile command
+          vim.notify('Compiling: ' .. compile_cmd, vim.log.levels.INFO)
+          local compile_output = vim.fn.system(compile_cmd)
+
+          -- 4. Check for compilation errors
+          if vim.v.shell_error ~= 0 then
+            print('Compilation Failed:\n' .. compile_output)
+            vim.notify('Compilation Failed. See messages.', vim.log.levels.ERROR)
+            return nil -- Abort the debug session
+          end
+
+          vim.notify('Compilation Successful. Launching debugger.', vim.log.levels.INFO)
+
+          -- 5. Return the path to the compiled executable
+          return output_exe
+        end,
+        cwd = vim.fn.expand '%:h', -- Run the executable in the file's directory
+        stopOnEntry = false,
+        runInTerminal = false, -- You can set this to true if you need a terminal
+      },
+    }
     require('mason-nvim-dap').setup {
       -- Makes a best effort to setup the various debuggers with
       -- reasonable debug configurations
