@@ -217,12 +217,12 @@ vim.api.nvim_create_autocmd('TermOpen', {
     vim.opt.number = false
   end,
 })
-vim.keymap.set('n', '<leader>tt', function()
+vim.keymap.set('n', '<leader>tst', function()
   vim.cmd.vnew()
   vim.cmd.term()
   vim.cmd.wincmd('J')
   vim.api.nvim_win_set_height(0, 15)
-end)
+end, { desc = 'opens a small terminal on the bottom' })
 -- TIP: Disable arrow keys in normal mode
 -- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
 -- vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
