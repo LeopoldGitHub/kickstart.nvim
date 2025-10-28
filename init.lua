@@ -141,9 +141,9 @@ vim.api.nvim_create_autocmd('Filetype', {
   pattern = { 'c', 'cpp' },
   callback = function()
     vim.opt.expandtab = true
-    vim.opt.shiftwidth = 4
-    vim.opt.tabstop = 4
-    vim.opt.softtabstop = 4
+    vim.opt.shiftwidth = 2
+    vim.opt.tabstop = 2
+    vim.opt.softtabstop = 2
   end,
 })
 
@@ -210,19 +210,19 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 -- or just use <C-\><C-n> to exit terminal mode
 vim.keymap.set('t', '<Esc><Esc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
--- create a terminal instance
-vim.api.nvim_create_autocmd('TermOpen', {
-  group = vim.api.nvim_create_augroup('custom-term-open', { clear = true }),
-  callback = function()
-    vim.opt.number = false
-  end,
-})
-vim.keymap.set('n', '<leader>tst', function()
-  vim.cmd.vnew()
-  vim.cmd.term()
-  vim.cmd.wincmd('J')
-  vim.api.nvim_win_set_height(0, 15)
-end, { desc = 'opens a small terminal on the bottom' })
+-- -- create a terminal instance
+-- vim.api.nvim_create_autocmd('TermOpen', {
+--   group = vim.api.nvim_create_augroup('custom-term-open', { clear = true }),
+--   callback = function()
+--     vim.opt.number = false
+--   end,
+-- })
+-- vim.keymap.set('n', '<leader>tst', function()
+--   vim.cmd.vnew()
+--   vim.cmd.term()
+--   vim.cmd.wincmd('J')
+--   vim.api.nvim_win_set_height(0, 15)
+-- end, { desc = 'opens a small terminal on the bottom' })
 -- TIP: Disable arrow keys in normal mode
 -- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
 -- vim.keymap.set('n', '<right>', '<cmd>echo "Use l to move!!"<CR>')
