@@ -46,7 +46,7 @@ vim.keymap.set('n', '<leader>tst', function()
     -- Set the new window's buffer to our existing terminal buffer
     vim.api.nvim_set_current_buf(persistent_term_bufnr)
     -- The 'TermOpen' autocmd won't fire again, so we manually go to insert mode
-    vim.cmd.startinsert()
+    -- vim.cmd.startinsert()
   end
 end, { desc = 'Toggle persistent bottom terminal' })
 
