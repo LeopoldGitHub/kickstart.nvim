@@ -711,7 +711,11 @@ require('lazy').setup({
       --  - settings (table): Override the default settings passed when initializing the server.
       --        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
       local servers = {
-        clangd = {},
+        clangd = {
+          init_options = {
+            fallbackFlags = { '-std=c23' },
+          },
+        },
         -- gopls = {},
         pyright = {},
         codelldb = {},
@@ -811,6 +815,8 @@ require('lazy').setup({
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
+        sh = { 'beautysh' },
+        c = { 'clangd' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --

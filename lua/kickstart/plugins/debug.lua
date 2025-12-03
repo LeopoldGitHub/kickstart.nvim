@@ -97,7 +97,7 @@ return {
           local output_exe = vim.fn.expand '%:r' .. '_debug.exe'
 
           -- 2. Build the compile command
-          local compile_cmd = string.format('gcc -g %s -o %s', vim.fn.shellescape(current_file), vim.fn.shellescape(output_exe))
+          local compile_cmd = string.format('gcc -lm -g %s -o %s', vim.fn.shellescape(current_file), vim.fn.shellescape(output_exe))
 
           -- 3. Run the compile command
           vim.notify('Compiling: ' .. compile_cmd, vim.log.levels.INFO)
