@@ -68,6 +68,15 @@ return {
       end,
       desc = 'Debug: Set Breakpoint',
     },
+    {
+      '<F6>',
+      function()
+        require('dap').terminate()
+        -- Optional: If you want to close the UI automatically when stopping:
+        -- if has_dapui then dapui.close() end
+      end,
+      desc = 'DAP: Stop/Terminate Session',
+    },
     -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
     {
       '<F7>',
@@ -76,7 +85,19 @@ return {
       end,
       desc = 'Debug: See last session result.',
     },
-  },
+    {
+      '<leader>dh',
+      function()
+        require('dapui').eval()
+      end,
+      desc = 'eval target',
+    },
+    { '<leader>dw',
+      function()
+       require('dapui').elements.watches.add(vim.fn.expand('<cword>'))
+      end,
+      desc = "Add to watchlist",
+    }},
   config = function()
     local dap = require 'dap'
     local dapui = require 'dapui'

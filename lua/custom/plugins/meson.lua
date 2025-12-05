@@ -8,9 +8,13 @@ local keybind = '<leader>mr'
 local split_direction = 'botright 15split'
 
 local function compile_and_run()
-  -- Guard: Check if meson.build exists in the current directory
-  if vim.fn.filereadable 'meson.build' == 0 then
-    vim.notify('No meson.build found in root. Skipping compilation.', vim.log.levels.WARN)
+  -- 0. Get the absolute path of the directory containing the current file
+  local file_dir = vim.fn.expand '%:p:h'
+
+  -- Guard: Check if meson.build exists in the file's directory
+  -- This ensures it works even if you opened Neovim from a different folder
+  if vim.fn.filereadable(file_dir .. '/meson.build') == 0 then
+    vim.notify('No meson.build found in ' .. file_dir, vim.log.levels.WARN)
     return
   end
 
@@ -18,13 +22,15 @@ local function compile_and_run()
   vim.cmd 'write'
 
   -- 2. Open the split AND create a fresh empty buffer
-  -- 'enew' is critical here: it detaches the new window from your C file
-  -- so clangd doesn't get confused and the terminal starts clean.
   vim.cmd(split_direction)
   vim.cmd 'enew'
 
   -- 3. Construct the shell command
-  local cmd = 'meson compile -C build && '
+  -- Added: 'cd' to the file's directory before running meson
+  local cmd = 'cd '
+    .. vim.fn.shellescape(file_dir)
+    .. ' && '
+    .. 'meson compile -C build && '
     .. "echo '\\n--- Compilation Success. Running Executable ---\\n' && "
     .. 'target=$(find ./build -maxdepth 1 -type f -executable '
     .. "! -name 'build.ninja' "
@@ -43,7 +49,7 @@ local function compile_and_run()
     end,
   })
 
-  -- 5. Terminal Cleanup: Remove line numbers and sign columns for this buffer
+  -- 5. Terminal Cleanup
   vim.opt_local.number = false
   vim.opt_local.relativenumber = false
   vim.opt_local.signcolumn = 'no'
