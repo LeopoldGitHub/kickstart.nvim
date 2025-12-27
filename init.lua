@@ -90,7 +90,6 @@ P.S. You can delete this when you're done too. It's your config now! :)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 
-vim.opt.foldmethod = 'indent'
 vim.opt.foldlevel = 99 -- Start with all folds open
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
