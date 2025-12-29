@@ -818,12 +818,26 @@ require('lazy').setup({
       formatters_by_ft = {
         lua = { 'stylua' },
         sh = { 'beautysh' },
-        c = { 'clangd' },
+        c = { 'clang_format' },
+        -- c = { 'clangd' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
+      },
+      formatters = {
+        clang_format = {
+          -- Pass the specific style rules as a string
+          prepend_args = {
+            '--style={ \
+          BasedOnStyle: LLVM, \
+          SeparateDefinitionBlocks: Always, \
+          MaxEmptyLinesToKeep: 1, \
+          KeepEmptyLinesAtTheStartOfBlocks: false \
+        }',
+          },
+        },
       },
     },
   },
