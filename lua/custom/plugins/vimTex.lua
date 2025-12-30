@@ -42,7 +42,6 @@ return {
   lazy = false,
   init = function()
     local is_windows = vim.fn.has 'win32' == 1
-
     -- OS-Specific Viewer
     if is_windows then
       vim.g.vimtex_view_method = 'general'
@@ -63,6 +62,11 @@ return {
       },
     }
     -- KEYMAPS
+    vim.g.vimtex_clean_custom_column = {
+      '*.fls',
+      '*.gz',
+      '*_vimtex_selected.*', -- This targets the files in your image
+    }
     --
 
     vim.api.nvim_create_autocmd('FileType', {
