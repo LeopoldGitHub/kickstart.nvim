@@ -974,9 +974,16 @@ require('lazy').setup({
       },
 
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'lazydev' },
+        default = { 'lsp', 'path', 'snippets', 'lazydev', 'buffer' },
         providers = {
           lazydev = { module = 'lazydev.integrations.blink', score_offset = 100 },
+          lsp = {
+            name = 'lsp',
+            enabled = true,
+            module = 'blink.cmp.sources.lsp',
+            -- Allow blink to see VimTeX's completion data
+            score_offset = 90,
+          },
         },
       },
 
