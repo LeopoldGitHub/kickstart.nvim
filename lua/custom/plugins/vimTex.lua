@@ -65,7 +65,8 @@ return {
     vim.g.vimtex_clean_custom_column = {
       '*.fls',
       '*.gz',
-      '*_vimtex_selected.*', -- This targets the files in your image
+      '*_vimtex_selected.*',
+      '*.fdb_latexmk', -- This targets the files in your image
     }
     --
 
@@ -102,12 +103,14 @@ return {
           { '<leader>lX', desc = 'Reload [X] State', buffer = true },
           { '<leader>lS', desc = '[S]ingle-shot Compile', buffer = true },
         }
-        vim.api.nvim_create_autocmd('User', {
-          pattern = 'VimtexEventCompileSuccess',
-          callback = function()
-            vim.cmd 'VimtexView'
-          end,
-        })
+        if is_windows then
+          vim.api.nvim_create_autocmd('User', {
+            pattern = 'VimtexEventCompileSuccess',
+            callback = function()
+              vim.cmd 'VimtexView'
+            end,
+          })
+        end
         vim.api.nvim_create_autocmd('BufUnload', {
           buffer = 0, -- Current buffer only
           callback = function()
