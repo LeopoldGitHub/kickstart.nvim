@@ -33,27 +33,27 @@ return {
       end,
       desc = 'Debug: Start/Continue',
     },
-    {
-      '<F1>',
-      function()
-        require('dap').step_into()
-      end,
-      desc = 'Debug: Step Into',
-    },
-    {
-      '<F2>',
-      function()
-        require('dap').step_over()
-      end,
-      desc = 'Debug: Step Over',
-    },
-    {
-      '<F3>',
-      function()
-        require('dap').step_out()
-      end,
-      desc = 'Debug: Step Out',
-    },
+    -- {
+    --   '<F1>',
+    --   function()
+    --     require('dap').step_into()
+    --   end,
+    --   desc = 'Debug: Step Into',
+    -- },
+    -- {
+    --   '<F2>',
+    --   function()
+    --     require('dap').step_over()
+    --   end,
+    --   desc = 'Debug: Step Over',
+    -- },
+    -- {
+    --   '<F3>',
+    --   function()
+    --     require('dap').step_out()
+    --   end,
+    --   desc = 'Debug: Step Out',
+    -- },
     {
       '<leader>b',
       function()
@@ -68,15 +68,15 @@ return {
       end,
       desc = 'Debug: Set Breakpoint',
     },
-    {
-      '<F6>',
-      function()
-        require('dap').terminate()
-        -- Optional: If you want to close the UI automatically when stopping:
-        -- if has_dapui then dapui.close() end
-      end,
-      desc = 'DAP: Stop/Terminate Session',
-    },
+    -- {
+    --   '<F6>',
+    --   function()
+    --     require('dap').terminate()
+    --     -- Optional: If you want to close the UI automatically when stopping:
+    --     -- if has_dapui then dapui.close() end
+    --   end,
+    --   desc = 'DAP: Stop/Terminate Session',
+    -- },
     -- Toggle to see last session result. Without this, you can't see session output in case of unhandled exception.
     {
       '<F7>',
@@ -85,22 +85,59 @@ return {
       end,
       desc = 'Debug: See last session result.',
     },
-    {
-      '<leader>dh',
-      function()
-        require('dapui').eval()
-      end,
-      desc = 'eval target',
-    },
-    { '<leader>dw',
-      function()
-       require('dapui').elements.watches.add(vim.fn.expand('<cword>'))
-      end,
-      desc = "Add to watchlist",
-    }},
+    -- {
+    --   '<leader>dh',
+    --   function()
+    --     require('dapui').eval()
+    --   end,
+    --   desc = 'eval target',
+    -- },
+    -- {
+    --   '<leader>dw',
+    --   function()
+    --     require('dapui').elements.watches.add(vim.fn.expand '<cword>')
+    --   end,
+    --   desc = 'Add to watchlist',
+    -- },
+  },
   config = function()
     local dap = require 'dap'
     local dapui = require 'dapui'
+    -- 1. Define the keys to be loaded/unloaded
+    local conditional_keys = {
+      { mode = 'n', key = '<F1>', func = dap.step_into, desc = 'Debug: Step Into' },
+      { mode = 'n', key = '<F2>', func = dap.step_over, desc = 'Debug: Step Over' },
+      { mode = 'n', key = '<F3>', func = dap.step_out, desc = 'Debug: Step Out' },
+      { mode = 'n', key = '<F6>', func = dap.terminate, desc = 'Debug: Stop/Terminate' },
+      { mode = 'n', key = '<leader>dh', func = dapui.eval, desc = 'Debug: Eval Target' },
+      {
+        mode = 'n',
+        key = '<leader>dw',
+        func = function()
+          dapui.elements.watches.add(vim.fn.expand '<cword>')
+        end,
+        desc = 'Add to watchlist',
+      },
+    }
+
+    -- 2. Function to map the keys
+    local function attach_dap_keys()
+      for _, v in ipairs(conditional_keys) do
+        vim.keymap.set(v.mode, v.key, v.func, { desc = v.desc, buffer = false })
+      end
+    end
+
+    -- 3. Function to unmap the keys
+    local function detach_dap_keys()
+      for _, v in ipairs(conditional_keys) do
+        pcall(vim.keymap.del, v.mode, v.key)
+      end
+    end
+
+    -- 4. Bind to DAP events
+    dap.listeners.after.event_initialized['dap_keys'] = attach_dap_keys
+    dap.listeners.before.event_terminated['dap_keys'] = detach_dap_keys
+    dap.listeners.before.event_exited['dap_keys'] = detach_dap_keys
     dap.configurations.c = {
       {
         name = 'Compile & Launch (Debug)', -- Name for the debug session

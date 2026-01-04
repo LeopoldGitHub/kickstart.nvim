@@ -385,12 +385,14 @@ require('lazy').setup({
 
       -- Document existing key chains
       spec = {
-
+        { '<leader>g', group = 'Git Commands', icon = { icon = '', color = 'orange' } },
+        { '<leader>u', group = 'UndoTree', icon = { icon = '', color = 'blue' } },
+        { 'u', group = 'Undo', icon = { icon = '', color = 'blue' } },
         { 'g', group = 'Goto / LSP' },
         { 'gr', group = 'References', icon = { icon = '󰄭 ', color = 'azure' } },
-
-        { '<leader>s', group = '[S]earch' },
-        { '<leader>t', group = '[T]oggle' },
+        { '<leader>x', group = 'E[x]ecute commands', icon = { icon = '', color = 'green' } },
+        { '<leader>s', group = '[S]earch', icon = { icon = '', color = 'green' } },
+        { '<leader>t', group = '[T]oggle', icon = { icon = '󰔡', color = 'green' } },
         { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
       },
     },
@@ -597,7 +599,7 @@ require('lazy').setup({
 
           -- Jump to the definition of the word under your cursor.
           --  This is where a variable was first declared, or where a function is defined, etc.
-          --  To jump back, press <C-t>.
+          --  To jump back, press <C-t><ScrollWheelUp>
           map('grd', require('telescope.builtin').lsp_definitions, '[G]oto [D]efinition')
 
           -- WARN: This is not Goto Definition, this is Goto Declaration.
