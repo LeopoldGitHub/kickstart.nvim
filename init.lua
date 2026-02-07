@@ -582,6 +582,10 @@ require('lazy').setup({
           --
           -- In this case, we create a function that lets us more easily define mappings specific
           -- for LSP related items. It sets the mode, buffer and description for us each time.
+          -- Find this inside your LspAttach callback:
+          vim.keymap.set('n', 'K', function()
+            vim.lsp.buf.hover { border = 'rounded' }
+          end, { buffer = event.buf, desc = 'Hover Documentation' })
           local map = function(keys, func, desc, mode)
             mode = mode or 'n'
             vim.keymap.set(mode, keys, func, { buffer = event.buf, desc = 'LSP: ' .. desc })
@@ -1033,6 +1037,8 @@ require('lazy').setup({
       -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
       vim.cmd.colorscheme 'catppuccin'
     end,
+    -- This removes the solid background from the float so the
+    -- rounded corners of the border are actually 'empty' at the edges.
   },
 
   -- Highlight todo, notes, etc in comments
