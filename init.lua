@@ -92,6 +92,7 @@ vim.g.maplocalleader = ' '
 
 vim.opt.foldlevel = 99 -- Start with all folds open
 
+vim.opt.termguicolors = true
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
 
