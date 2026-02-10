@@ -150,6 +150,12 @@ vim.api.nvim_create_autocmd('Filetype', {
   end,
 })
 
+-- set csv to ;
+vim.filetype.add {
+  extension = {
+    csv = 'csv_semicolon',
+  },
+}
 -- Save undo history
 vim.o.undofile = true
 
