@@ -149,7 +149,13 @@ vim.api.nvim_create_autocmd('Filetype', {
     vim.opt.softtabstop = 2
   end,
 })
-
+-- set playbook.yml files to yaml.ansible
+vim.filetype.add {
+  pattern = {
+    -- Matches any file with "playbook" in the name and a yaml/yml extension
+    ['.*playbook.*%.y[a]?ml'] = 'yaml.ansible',
+  },
+}
 -- set csv to ;
 vim.filetype.add {
   extension = {
@@ -841,6 +847,9 @@ require('lazy').setup({
         lua = { 'stylua' },
         sh = { 'beautysh' },
         c = { 'clang_format' },
+        yaml = { 'yamlfmt' },
+        ansible = { 'yamlfmt' },
+        ['yaml.ansible'] = { 'yamlfmt' },
         -- c = { 'clangd' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
