@@ -849,7 +849,6 @@ require('lazy').setup({
         c = { 'clang_format' },
         yaml = { 'yamlfmt' },
         ansible = { 'yamlfmt' },
-        ['yaml.ansible'] = { 'yamlfmt' },
         -- c = { 'clangd' },
         -- Conform can also run multiple formatters sequentially
         -- python = { "isort", "black" },
@@ -868,6 +867,9 @@ require('lazy').setup({
           KeepEmptyLinesAtTheStartOfBlocks: false \
         }',
           },
+        },
+        yamlfmt = {
+          args = { '-formatter', 'retain_line_breaks_single=true,include_document_start=true', '-' },
         },
       },
     },
