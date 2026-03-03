@@ -149,6 +149,13 @@ vim.api.nvim_create_autocmd('Filetype', {
     vim.opt.softtabstop = 2
   end,
 })
+vim.filetype.add {
+  extension = {
+    j2 = 'jinja',
+    jinja = 'jinja',
+    jinja2 = 'jinja',
+  },
+}
 -- set playbook.yml files to yaml.ansible
 vim.filetype.add {
   pattern = {
