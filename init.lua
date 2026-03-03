@@ -756,6 +756,15 @@ require('lazy').setup({
         -- gopls = {},
         pyright = {},
         codelldb = {},
+        ansiblels = {
+          filetypes = { 'yaml.ansible', 'ansible', 'jinja' },
+          settings = {
+            ansible = {
+              ansible = { path = 'ansible' },
+              validation = { enabled = true, lint = { enabled = true } },
+            },
+          },
+        },
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
