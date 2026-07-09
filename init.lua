@@ -1,4 +1,4 @@
---[[
+--[[ini
 
 =====================================================================
 ==================== READ THIS BEFORE CONTINUING ====================
@@ -845,10 +845,14 @@ require('lazy').setup({
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
+        vhdl = { 'vsg' },
         sh = { 'beautysh' },
         c = { 'clang_format' },
         yaml = { 'yamlfmt' },
         ansible = { 'yamlfmt' },
+        bib = { 'bibtex-tidy' },
+        tex = { 'latexindent' },
+        latex = { 'latexindent' },
         ['yaml.ansible'] = { 'yamlfmt' },
         -- c = { 'clangd' },
         -- Conform can also run multiple formatters sequentially
@@ -858,6 +862,9 @@ require('lazy').setup({
         -- javascript = { "prettierd", "prettier", stop_after_first = true },
       },
       formatters = {
+        latexindent = {
+          prepend_args = { "-y=defaultIndent: '  '" },
+        },
         clang_format = {
           -- Pass the specific style rules as a string
           prepend_args = {
@@ -868,6 +875,16 @@ require('lazy').setup({
           KeepEmptyLinesAtTheStartOfBlocks: false \
         }',
           },
+        },
+        vsg = {
+          -- This matches the name in your mason/bin folder
+          command = 'vsg',
+          -- vsg usually requires specific flags to work with stdin
+          -- or to point to a config file.
+          args = { '-f', '$FILENAME', '--fix' },
+          -- If vsg doesn't support stdout well,
+          -- conform can use a temporary file:
+          stdin = false,
         },
       },
     },
