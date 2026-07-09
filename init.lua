@@ -121,6 +121,10 @@ vim.schedule(function()
   vim.o.clipboard = 'unnamedplus'
 end)
 
+-- This ensures that when you yank, it ALSO goes into the internal register
+-- so that the 'paste' function above actually has something to grab.
+vim.opt.clipboard:append 'unnamedplus'
+
 -- Enable break indent
 vim.o.breakindent = true
 
@@ -149,6 +153,13 @@ vim.api.nvim_create_autocmd('Filetype', {
     vim.opt.softtabstop = 2
   end,
 })
+vim.filetype.add {
+  extension = {
+    j2 = 'jinja',
+    jinja = 'jinja',
+    jinja2 = 'jinja',
+  },
+}
 -- set playbook.yml files to yaml.ansible
 vim.filetype.add {
   pattern = {
@@ -749,6 +760,15 @@ require('lazy').setup({
         -- gopls = {},
         pyright = {},
         codelldb = {},
+        ansiblels = {
+          filetypes = { 'yaml.ansible', 'ansible', 'jinja' },
+          settings = {
+            ansible = {
+              ansible = { path = 'ansible' },
+              validation = { enabled = true, lint = { enabled = true } },
+            },
+          },
+        },
         -- rust_analyzer = {},
         -- ... etc. See `:help lspconfig-all` for a list of all the pre-configured LSPs
         --
@@ -854,12 +874,6 @@ require('lazy').setup({
         tex = { 'latexindent' },
         latex = { 'latexindent' },
         ['yaml.ansible'] = { 'yamlfmt' },
-        -- c = { 'clangd' },
-        -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
-        --
-        -- You can use 'stop_after_first' to run the first available formatter from the list
-        -- javascript = { "prettierd", "prettier", stop_after_first = true },
       },
       formatters = {
         latexindent = {
@@ -876,15 +890,8 @@ require('lazy').setup({
         }',
           },
         },
-        vsg = {
-          -- This matches the name in your mason/bin folder
-          command = 'vsg',
-          -- vsg usually requires specific flags to work with stdin
-          -- or to point to a config file.
-          args = { '-f', '$FILENAME', '--fix' },
-          -- If vsg doesn't support stdout well,
-          -- conform can use a temporary file:
-          stdin = false,
+        yamlfmt = {
+          args = { '-formatter', 'retain_line_breaks_single=true,include_document_start=true', '-' },
         },
       },
     },
