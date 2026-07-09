@@ -48,6 +48,14 @@ return {
       vim.g.vimtex_view_general_viewer = 'SumatraPDF'
       vim.g.vimtex_view_general_options = '-reuse-instance -forward-search @tex @line @pdf'
     else
+      -- Vimtex ignore some warnings
+      vim.g.vimtex_quickfix_ignore_filters = {
+        'Overfull \\hbox',
+        'Underfull \\hbox',
+        'Overfull \\vbox',
+        'Underfull \\vbox',
+        'Package hyperref Warning: Token not allowed in a PDF string',
+      }
       vim.g.vimtex_view_method = 'zathura'
     end
 

@@ -1,4 +1,4 @@
---[[
+--[[ini
 
 =====================================================================
 ==================== READ THIS BEFORE CONTINUING ====================
@@ -865,18 +865,20 @@ require('lazy').setup({
       end,
       formatters_by_ft = {
         lua = { 'stylua' },
+        vhdl = { 'vsg' },
         sh = { 'beautysh' },
         c = { 'clang_format' },
         yaml = { 'yamlfmt' },
         ansible = { 'yamlfmt' },
-        -- c = { 'clangd' },
-        -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
-        --
-        -- You can use 'stop_after_first' to run the first available formatter from the list
-        -- javascript = { "prettierd", "prettier", stop_after_first = true },
+        bib = { 'bibtex-tidy' },
+        tex = { 'latexindent' },
+        latex = { 'latexindent' },
+        ['yaml.ansible'] = { 'yamlfmt' },
       },
       formatters = {
+        latexindent = {
+          prepend_args = { "-y=defaultIndent: '  '" },
+        },
         clang_format = {
           -- Pass the specific style rules as a string
           prepend_args = {

@@ -20,12 +20,9 @@ return {
     vim.keymap.set('n', '<C-k>', function()
       harpoon:list():select(2)
     end, { desc = 'jump to second harpoon file' })
-    vim.keymap.set('n', '<C-m>', function()
+    vim.keymap.set('n', '<C-n>', function()
       harpoon:list():select(3)
     end, { desc = 'jump to third harpoon file' })
-    vim.keymap.set('n', '<C-n>', function()
-      harpoon:list():select(4)
-    end, { desc = 'jump to fourth harpoon file' })
 
     -- Toggle previous & next buffers stored within Harpoon list
     vim.keymap.set('n', '<C-S-P>', function()
