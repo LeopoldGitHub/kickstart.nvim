@@ -882,6 +882,8 @@ require('lazy').setup({
         bib = { 'bibtex-tidy' },
         tex = { 'latexindent' },
         latex = { 'latexindent' },
+        terraform = { 'terraform_fmt' },
+        ['terraform-vars'] = { 'terraform_fmt' },
         ['yaml.ansible'] = { 'yamlfmt' },
       },
       formatters = {
