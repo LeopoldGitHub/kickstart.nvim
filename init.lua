@@ -155,6 +155,12 @@ vim.api.nvim_create_autocmd('Filetype', {
 })
 vim.filetype.add {
   extension = {
+    tf = 'terraform',
+    tfvars = 'terraform-vars',
+  },
+}
+vim.filetype.add {
+  extension = {
     j2 = 'jinja',
     jinja = 'jinja',
     jinja2 = 'jinja',
@@ -760,6 +766,9 @@ require('lazy').setup({
         -- gopls = {},
         pyright = {},
         codelldb = {},
+        terraformls = {
+          filetypes = { 'tf', 'terraform', 'terraform-vars', 'hcl' },
+        },
         ansiblels = {
           filetypes = { 'yaml.ansible', 'ansible', 'jinja' },
           settings = {
