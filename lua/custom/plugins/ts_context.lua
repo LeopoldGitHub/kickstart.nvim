@@ -14,6 +14,12 @@ return {
     -- When separator is set, the context will only show up when there are at least 2 lines above cursorline.
     separator = nil,
     zindex = 20, -- The Z-index of the context window
-    on_attach = nil, -- (fun(buf: integer): boolean) return false to disable attaching
+    on_attach = function(buf)
+      local ft = vim.bo[buf].filetype
+      if ft == 'copilot-chat' or ft == 'markdown' or ft == 'Avante' then
+        return false
+      end
+      return true
+    end,
   },
 }
